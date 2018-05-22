@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>02</title>
+    <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+</head>
+
+<body>
+    <!-- 1 -->
+    <script>
+    /*Vue.component方法可以自定义组件*/
+    Vue.component('todo-item', {
+        template: '<li>这是个待办项</li>'
+    })
+    </script>
+    <div id="app1">
+        <ol>
+            <!-- 在模板代码中使用自定义组件 -->
+            <todo-item></todo-item>
+        </ol>
+    </div>
+    <script>
+    /*将模板实例化为Vue对象*/
+    var app6 = new Vue({
+        el: '#app1'
+    })
+    </script>
+    <!-- 2 -->
+    <div id="app2">
+        <ol>
+            <!--
+              现在我们为每个 item 提供 name 对象
+              name 对象是变量，即其内容可以是动态的。
+              我们也需要为每个组件提供一个“key”
+            -->
+            <item v-for="food in foods" v-bind:name="food" v-bind:key="food.id">
+            </item>
+        </ol>
+    </div>
+    <script>
+    Vue.component('item', {
+        // item 组件现在接受一个
+        // "prop"，类似于一个自定义属性。
+        // 这个 prop 名为 name
+        props: ['name'],
+        template: '<li>{{ name.text }}</li>'
+    })
+    var app2 = new Vue({
+        el: '#app2',
+        data: {
+            foods: [
+                { id: 0, text: '蔬菜' },
+                { id: 1, text: '奶酪' },
+                { id: 2, text: '随便其它什么人吃的东西' }
+            ]
+        }
+    })
+    </script>
+</body>
+
+</html>
