@@ -9,14 +9,14 @@
 
 <body>
     <!-- 1 -->
-    <div id="app1">
+    <div id="app-1">
         <p>{{ message }}</p>
     </div>
     <script>
     /* app与dom#app绑定 */
     /* 修改app.message将会直接影响dom中的内容 */
     var app1 = new Vue({
-        el: '#app',
+        el: '#app-1',
         data: {
             message: 'Hello Vue.js!'
         }
