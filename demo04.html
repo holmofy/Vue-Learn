@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>04</title>
+    <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+</head>
+
+<body>
+    <!-- 插值 -->
+    <!-- mustache语法 -->
+    <p id="app1">Message: {{ msg }}</p>
+    <script>
+    var app1 = new Vue({ el: '#app1', data: { msg: 'mustache语法' } });
+    </script>
+    <!-- 一次性插值，插值后此处不再变化 -->
+    <p id="app2" v-once>这个将不会改变: {{ msg }}</p>
+    <script>
+    var app2 = new Vue({ el: '#app2', data: { msg: '这个值绑定一次修改后不再被渲染' } });
+    </script>
+    <!-- html转义 -->
+    <!-- mustache会自动转义 -->
+    <p id="app3">Using mustaches: {{ rawHtml }}</p>
+    <script>
+    var app3 = new Vue({ el: '#app3', data: { rawHtml: "<span style='color:red'>红色的字</span>" } });
+    </script>
+    <!-- 如果我们要展示html内容，而不执行转义，需要v-html指令 -->
+    <p id="app4">Using v-html directive: <span v-html="rawHtml"></span></p>
+    <script>
+    var app4 = new Vue({ el: '#app4', data: { rawHtml: "<span style='color:red'>红色的字</span>" } });
+    </script>
+    <!-- 属性插值不能使用mustache语法 -->
+    <p id="app5" v-bind:id="dynamicId"></p>
+    <script>
+    var app5 = new Vue({ el: '#app5', data: { dynamicId: 'abc' } });
+    </script>
+    <!-- mustache语法中支持javascript表达式 -->
+    <p id="app6">{{ number + 1 }} {{ ok ? 'YES' : 'NO' }} {{ message.split('').reverse().join('') }}</p>
+    <script>
+    var app6 = new Vue({ el: '#app6', data: { number: 10, ok: true, message: 'this is message' } });
+    </script>
+    <!-- v-bind指令也支持javascript表达式 -->
+    <div id="app7" v-bind:id="'list-' + id"></div>
+    <script>
+    var app7 = new Vue({ el: '#app7', data: { id: 10 } });
+    </script>
+    <!-- 赋值语句、控制流语句等其他结构都不支持 -->
+    <!-- 这是语句，不是表达式 -->
+    <p id="app8">{{ var a = 1 }}</p>
+    <script>
+    var app8 = new Vue({ el: '#app8', data: { a: 10 } });
+    </script>
+    <!-- 流控制也不会生效，请使用三元表达式 -->
+    <p id="app9">{{ if (ok) { return message } }}</p>
+    <script>
+    var app9 = new Vue({ el: '#app9', data: { ok: true, message: 'this is message' } });
+    </script>
+    <!-- 指令，vue指令都以v为前缀 -->
+    <!-- v-if指令根据seen判断是否插入或移除p元素 -->
+    <p id="app10" v-if="seen">现在你看到我了</p>
+    <script>
+    var app10 = new Vue({ el: '#app10', data: { seen: true } });
+    </script>
+    <!-- v-bind指令，用于绑定元素属性 -->
+    <p id="app11"><a v-bind:href="url">...</a></p>
+    <script>
+    var app11 = new Vue({ el: '#app11', data: { url: 'http://www.baidu.com' } });
+    </script>
+    <!-- v-on指令，用于绑定元素事件 -->
+    <p id="app12"><a v-on:click="doSomething">...</a></p>
+    <script>
+    var app12 = new Vue({ el: '#app12', methods: { doSomething: () => alert('点击了超链接') } });
+    </script>
+    <!-- .prevent 修饰符告诉 v-on 指令对于触发的事件调用 event.preventDefault() -->
+    <form id="app13" v-on:submit.prevent="onSubmit"><input type="submit"></form>
+    <script>
+    var app13 = new Vue({ el: '#app13', methods: { onSubmit: () => alert('提交表单') } });
+    </script>
+    <!-- 缩写 -->
+    <!-- 完整语法 -->
+    <p id="app14"><a v-bind:href="url">...</a></p>
+    <script>
+    var app14 = new Vue({ el: '#app14', data: { url: 'http://www.baidu.com' } });
+    </script>
+    <!-- 缩写 -->
+    <p id="app15"><a :href="url">...</a></p>
+    <script>
+    var app15 = new Vue({ el: '#app15', data: { url: 'http://www.baidu.com' } });
+    </script>
+    <!-- 完整语法 -->
+    <p id="app16"><a v-on:click="doSomething">...</a></p>
+    <script>
+    var app16 = new Vue({ el: '#app16', methods: { doSomething: () => alert('点击了超链接') } });
+    </script>
+    <!-- 缩写 -->
+    <p id="app17"><a @click="doSomething">...</a></p>
+    <script>
+    var app17 = new Vue({ el: '#app17', methods: { doSomething: () => alert('点击了超链接') } });
+    </script>
+</body>
+
+</html>
