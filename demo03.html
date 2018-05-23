@@ -3,106 +3,100 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>03</title>
+    <title>04</title>
     <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
 </head>
 
 <body>
+    <!-- 插值 -->
+    <!-- mustache语法 -->
+    <p id="app1">Message: {{ msg }}</p>
     <script>
-    (function() {
-        // 我们的数据对象
-        var data = { a: 1 };
-        // 该对象被加入到一个 Vue 实例中
-        var vm = new Vue({
-            data: data
-        });
-        // 获得这个实例上的属性
-        // 返回源数据中对应的字段
-        console.log(vm.a == data.a); // true
-
-        // 设置属性也会影响到原始数据
-        vm.a = 2;
-        console.log(data.a); // 2
-
-        // ……反之亦然
-        data.a = 3;
-        console.log(vm.a); // 3
-        /* 当这些数据改变时，视图会进行重渲染 */
-        /* 只有data中已存在的属性才是响应式的 */
-        /* 新增属性将不会出发视图更新 */
-        /*
-         如果你知道你会在晚些时候需要一个属性，
-         但是一开始它为空或不存在，
-         那么你仅需要设置一些初始值。
-         如：
-          data: {
-            newTodoText: '',
-            visitCount: 0,
-            hideCompletedTodos: false,
-            todos: [],
-            error: null
-          }
-        */
-        /*
-          如果使用Object.freeze()方法将对象冻结了，由于无法改变对象属性
-          Vue的响应系统也无法再追踪变化。
-            var obj = {
-              foo: 'bar'
-            }
-
-            Object.freeze(obj)
-
-            new Vue({
-              el: '#app',
-              data: obj
-            })
-         */
-    })();
+    var app1 = new Vue({ el: '#app1', data: { msg: 'mustache语法' } });
     </script>
-    <!-- 2 -->
-    <div id="example"></div>
+    <!-- 一次性插值，插值后此处不再变化 -->
+    <p id="app2" v-once>这个将不会改变: {{ msg }}</p>
     <script>
-    var data = { a: 1 };
-    var vm = new Vue({
-        el: '#example',
-        data: data
-    });
-    /*Vue暴露了一些实例属性和方法。为了与用户定义属性区分，它们都有$前缀*/
-    console.log(vm.$data === data); // => true
-    console.log(vm.$el === document.getElementById('example')); // => true
-
-    // $watch 是一个实例方法:用于观察属性变化
-    vm.$watch('a', function(newValue, oldValue) {
-        // 这个回调将在 `vm.a` 改变后调用
-        // 可以在控制台尝试改变vm.a的值
-        console.log(newValue, oldValue);
-    });
+    var app2 = new Vue({ el: '#app2', data: { msg: '这个值绑定一次修改后不再被渲染' } });
     </script>
-    <!-- 3 -->
+    <!-- html转义 -->
+    <!-- mustache会自动转义 -->
+    <p id="app3">Using mustaches: {{ rawHtml }}</p>
     <script>
-    new Vue({
-        data: {
-            a: 1
-        },
-        beforeCreate: function() {},
-        /* 生命周期回调函数(钩子函数) */
-        created: function() {
-            // `this` 指向 vm 实例
-            console.log('a is: ' + this.a); // a is: 1
-        },
-        beforeMount: function() {},
-        mounted: function() {
-            console.log("mounted");
-        },
-        beforeUpdate: function() {},
-        updated: function() {
-            console.log("updated");
-        },
-        beforeDestory: function() {},
-        destroyed: function() {
-            console.log("destroyed");
-        }
-    });
+    var app3 = new Vue({ el: '#app3', data: { rawHtml: "<span style='color:red'>红色的字</span>" } });
+    </script>
+    <!-- 如果我们要展示html内容，而不执行转义，需要v-html指令 -->
+    <p id="app4">Using v-html directive: <span v-html="rawHtml"></span></p>
+    <script>
+    var app4 = new Vue({ el: '#app4', data: { rawHtml: "<span style='color:red'>红色的字</span>" } });
+    </script>
+    <!-- 属性插值不能使用mustache语法 -->
+    <p id="app5" v-bind:id="dynamicId"></p>
+    <script>
+    var app5 = new Vue({ el: '#app5', data: { dynamicId: 'abc' } });
+    </script>
+    <!-- mustache语法中支持javascript表达式 -->
+    <p id="app6">{{ number + 1 }} {{ ok ? 'YES' : 'NO' }} {{ message.split('').reverse().join('') }}</p>
+    <script>
+    var app6 = new Vue({ el: '#app6', data: { number: 10, ok: true, message: 'this is message' } });
+    </script>
+    <!-- v-bind指令也支持javascript表达式 -->
+    <div id="app7" v-bind:id="'list-' + id"></div>
+    <script>
+    var app7 = new Vue({ el: '#app7', data: { id: 10 } });
+    </script>
+    <!-- 赋值语句、控制流语句等其他结构都不支持 -->
+    <!-- 这是语句，不是表达式 -->
+    <p id="app8">{{ var a = 1 }}</p>
+    <script>
+    var app8 = new Vue({ el: '#app8', data: { a: 10 } });
+    </script>
+    <!-- 流控制也不会生效，请使用三元表达式 -->
+    <p id="app9">{{ if (ok) { return message } }}</p>
+    <script>
+    var app9 = new Vue({ el: '#app9', data: { ok: true, message: 'this is message' } });
+    </script>
+    <!-- 指令，vue指令都以v为前缀 -->
+    <!-- v-if指令根据seen判断是否插入或移除p元素 -->
+    <p id="app10" v-if="seen">现在你看到我了</p>
+    <script>
+    var app10 = new Vue({ el: '#app10', data: { seen: true } });
+    </script>
+    <!-- v-bind指令，用于绑定元素属性 -->
+    <p id="app11"><a v-bind:href="url">...</a></p>
+    <script>
+    var app11 = new Vue({ el: '#app11', data: { url: 'http://www.baidu.com' } });
+    </script>
+    <!-- v-on指令，用于绑定元素事件 -->
+    <p id="app12"><a v-on:click="doSomething">...</a></p>
+    <script>
+    var app12 = new Vue({ el: '#app12', methods: { doSomething: () => alert('点击了超链接') } });
+    </script>
+    <!-- .prevent 修饰符告诉 v-on 指令对于触发的事件调用 event.preventDefault() -->
+    <form id="app13" v-on:submit.prevent="onSubmit"><input type="submit"></form>
+    <script>
+    var app13 = new Vue({ el: '#app13', methods: { onSubmit: () => alert('提交表单') } });
+    </script>
+    <!-- 缩写 -->
+    <!-- 完整语法 -->
+    <p id="app14"><a v-bind:href="url">...</a></p>
+    <script>
+    var app14 = new Vue({ el: '#app14', data: { url: 'http://www.baidu.com' } });
+    </script>
+    <!-- 缩写 -->
+    <p id="app15"><a :href="url">...</a></p>
+    <script>
+    var app15 = new Vue({ el: '#app15', data: { url: 'http://www.baidu.com' } });
+    </script>
+    <!-- 完整语法 -->
+    <p id="app16"><a v-on:click="doSomething">...</a></p>
+    <script>
+    var app16 = new Vue({ el: '#app16', methods: { doSomething: () => alert('点击了超链接') } });
+    </script>
+    <!-- 缩写 -->
+    <p id="app17"><a @click="doSomething">...</a></p>
+    <script>
+    var app17 = new Vue({ el: '#app17', methods: { doSomething: () => alert('点击了超链接') } });
     </script>
 </body>
 
