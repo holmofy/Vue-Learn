@@ -4,169 +4,92 @@
 <head>
     <meta charset="UTF-8">
     <title>demo05</title>
+    <style type="text/css">
+    .active {
+        background-color: cyan;
+    }
+
+    .text-danger {
+        color: crimson;
+    }
+
+    .static {
+        border: 2px solid black;
+    }
+    </style>
     <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
 </head>
 
 <body>
     <!-- 1 -->
-    <div id="app01">
-        {{ message.split('').reverse().join('') }}
-    </div>
+    <div id="app01" v-bind:class="{ active: isActive }"></div>
+    v-bind:class动态指定样式类
     <script>
-    var app01 = new Vue({ el: '#app01', data: { message: 'this is message' } });
+    var app01 = new Vue({ el: '#app01', data: { isActive: true } });
     </script>
+    <hr>
     <!-- 2 -->
-    <div id="app02">
-        <p>Original message: "{{ message }}"</p>
-        <p>Computed reversed message: "{{ reversedMessage }}"</p>
+    <div id="app02" class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }">
+        class与v-bind:class可以一起使用
     </div>
     <script>
-    var app02 = new Vue({
-        el: '#app02',
-        data: { message: 'this is message' },
-        computed: {
-            // 计算属性的 getter
-            reversedMessage: function() {
-                // `this` 指向 vm 实例
-                return this.message.split('').reverse().join('');
-            }
-        }
-    });
+    var app02 = new Vue({ el: '#app02', data: { isActive: true, hasError: true } });
     </script>
+    <hr>
     <!-- 3 -->
-    <div id="app03">
-        <p>Original message: "{{ message }}"</p>
-        <p>Computed reversed message: "{{ reversedMessage() }}"</p>
+    <div id="app03" v-bind:class="classObject">
+        绑定计算属性
     </div>
     <script>
     var app03 = new Vue({
         el: '#app03',
-        data: { message: 'this is message' },
-        methods: {
-            // 计算属性是基于它们的依赖进行缓存的
-            // 依赖的值发生改变才会重新求值
-            // 调用methods是临时计算的
-            reversedMessage: function() {
-                return this.message.split('').reverse().join('');
+        data: {
+            active: true,
+            error: false
+        },
+        computed: {
+            classObject: function() {
+                return {
+                    active: this.active && !this.error,
+                    'text-danger': this.error && this.error.type === 'fatal'
+                };
             }
         }
     });
     </script>
+    <hr>
     <!-- 4 -->
-    <div id="app04">
-        <p>current time: "{{ now }}"</p>
-    </div>
+    <div id="app04" v-bind:class="[activeClass, errorClass]">数组作为class列表</div>
     <script>
     var app04 = new Vue({
         el: '#app04',
-        data: { time: new Date() },
-        computed: { now: function() { return this.time.toUTCString(); } }
+        data: {
+            activeClass: 'active',
+            errorClass: 'text-danger'
+        }
     });
     </script>
+    <hr>
     <!-- 5 -->
-    <div id="app05">
-        <p>current time: "{{ now() }}"</p>
-    </div>
+    <div id="app05" v-bind:class="[isActive ? 'active' : '', errorClass]">v-bind:class中使用三目运算符</div>
     <script>
     var app05 = new Vue({
         el: '#app05',
-        data: { time: new Date() },
-        methods: { now: function() { return this.time.toUTCString(); } }
+        data: {
+            isActive: true,
+            errorClass: 'text-danger'
+        }
     });
     </script>
-    <script>
-    setInterval(() => {
-        app04.time = app05.time = new Date();
-    }, 1000);
-    </script>
+    <hr>
     <!-- 6 -->
-    <div id="app06">{{fullName}}</div>
+    <div id="app06" v-bind:style="{color:activeColor, fontSize:fontSize+'px'}">内联样式</div>
     <script>
     var app06 = new Vue({
         el: '#app06',
         data: {
-            firstName: 'Foo',
-            lastName: 'Bar'
-        },
-        computed: {
-            fullName: function() {
-                return this.firstName + ' ' + this.lastName
-            }
-        }
-    });
-    </script>
-    <!-- 7 -->
-    <div id="app07">{{fullName}}</div>
-    <script>
-    var app07 = new Vue({
-        el: '#app07',
-        data: {
-            firstName: 'Foo',
-            lastName: 'Bar'
-        },
-        computed: {
-            fullName: {
-                // getter
-                get: function() {
-                    return this.firstName + ' ' + this.lastName;
-                },
-                // setter
-                set: function(newValue) {
-                    var names = newValue.split(' ');
-                    this.firstName = names[0];
-                    this.lastName = names[names.length - 1];
-                }
-            }
-        }
-    });
-    </script>
-    <!-- 8 -->
-    <div id="app08">
-        <p>
-            Ask a yes/no question:
-            <input v-model="question">
-        </p>
-        <p>{{answer}}</p>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
-    <script>
-    var app08 = new Vue({
-        el: '#app08',
-        data: {
-            question: '',
-            answer: 'I cannot give you an answer until you ask a question!'
-        },
-        watch: {
-            // 如果 `question` 发生改变，这个函数就会运行
-            question: function(newQuestion, oldQuestion) {
-                this.answer = 'Waiting for you to stop typing...';
-                this.debouncedGetAnswer();
-            }
-        },
-        created: function() {
-            // `_.debounce` 是一个通过 Lodash 限制操作频率的函数。
-            // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
-            // AJAX 请求直到用户输入完毕才会发出。想要了解更多关于
-            // `_.debounce` 函数 (及其近亲 `_.throttle`) 的知识，
-            // 请参考：https://lodash.com/docs#debounce
-            this.debouncedGetAnswer = _.debounce(this.getAnswer, 500);
-        },
-        methods: {
-            getAnswer: function() {
-                if (this.question.indexOf('?') === -1) {
-                    this.answer = 'Questions usually contain a question mark. ;-)';
-                    return;
-                }
-                this.answer = 'Thinking...';
-                var vm = this;
-                axios.get('https://yesno.wtf/api')
-                    .then((response) => {
-                        vm.answer = _.capitalize(response.data.answer);
-                    }).catch((error) => {
-                        vm.answer = 'Error! Could not reach the API. ' + error;
-                    });
-            }
+            activeColor: 'red',
+            fontSize: 30
         }
     });
     </script>

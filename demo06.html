@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>demo06</title>
+    <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app01">
+        <h1 v-if="ok">Yes</h1>
+        <h1 v-else>No</h1>
+    </div>
+    <script>
+    var app01 = new Vue({
+        el: '#app01',
+        data: { ok: true }
+    });
+    </script>
+    <hr>
+    <div id="app02">
+        <template v-if="ok">
+            <h1>Title</h1>
+            <p>Paragraph 1</p>
+            <p>Paragraph 2</p>
+        </template>
+    </div>
+    <script>
+    var app02 = new Vue({
+        el: '#app02',
+        data: { ok: true }
+    });
+    </script>
+    <hr>
+    <div id="app03">
+        <div v-if="Math.random() > 0.5">
+            Now you see me
+        </div>
+        <div v-else>
+            Now you don't
+        </div>
+    </div>
+    <script>
+    var app03 = new Vue({ el: '#app03' });
+    </script>
+    <hr>
+    <div id="app04">
+        <div v-if="type === 'A'">
+            A
+        </div>
+        <div v-else-if="type === 'B'">
+            B
+        </div>
+        <div v-else-if="type === 'C'">
+            C
+        </div>
+        <div v-else>
+            Not A/B/C
+        </div>
+    </div>
+    <script>
+    var app04 = new Vue({
+        el: '#app04',
+        data: { type: ['A', 'B', 'C', 'D'][Math.floor(Math.random() * 4)] }
+    });
+    </script>
+    <hr>
+    <div id="app05">
+        <template v-if="loginType === 'username'">
+            <label>Username</label>
+            <input placeholder="Enter your username">
+        </template>
+        <template v-else>
+            <label>Email</label>
+            <input placeholder="Enter your email address">
+        </template>
+        <button v-on:click='toggleType'>Toggle Login Type</button>
+    </div>
+    <script>
+    var app05 = new Vue({
+        el: '#app05',
+        data: { loginType: 'username' },
+        methods: {
+            toggleType: function() {
+                this.loginType = this.loginType != 'username' ? 'username' : 'email';
+            }
+        }
+    });
+    </script>
+    <hr>
+    <div id="app06">
+        <template v-if="loginType === 'username'">
+            <label>Username</label>
+            <input placeholder="Enter your username" key="username-input">
+        </template>
+        <template v-else>
+            <label>Email</label>
+            <input placeholder="Enter your email address" key="email-input">
+        </template>
+        <button v-on:click='toggleType'>Toggle Login Type</button>
+    </div>
+    <script>
+    var app06 = new Vue({
+        el: '#app06',
+        data: { loginType: 'username' },
+        methods: {
+            toggleType: function() {
+                this.loginType = this.loginType != 'username' ? 'username' : 'email';
+            }
+        }
+    });
+    </script>
+    <hr>
+    <h1 id="app07" v-show="ok">Hello!</h1>
+    <script>
+    var app07 = new Vue({
+        el: '#app07',
+        data: { ok: true }
+    });
+    </script>
+</body>
+
+</html>
