@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>demo08 事件处理</title>
+    <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app1">
+        <button v-on:click="counter += 1">Add 1</button>
+        <p>The button above has been clicked {{ counter }} times.</p>
+    </div>
+    <script>
+    var example1 = new Vue({
+        el: '#app1',
+        data: {
+            counter: 0
+        }
+    });
+    </script>
+    <hr>
+    <p>然而许多事件处理逻辑会更为复杂，所以直接把 JavaScript 代码写在 v-on 指令中是不可行的。因此 v-on 还可以接收一个需要调用的方法名称。</p>
+    <div id="app2">
+        <!-- `greet` 是在下面定义的方法名 -->
+        <button v-on:click="greet">Greet</button>
+    </div>
+    <script>
+    var app2 = new Vue({
+        el: '#app2',
+        data: {
+            name: 'Vue.js'
+        },
+        // 在 `methods` 对象中定义方法
+        methods: {
+            greet: function(event) {
+                // `this` 在方法里指向当前 Vue 实例
+                alert('Hello ' + this.name + '!')
+                // `event` 是原生 DOM 事件
+                if (event) {
+                    alert(event.target.tagName)
+                }
+            }
+        }
+    });
+    // 也可以用 JavaScript 直接调用方法
+    app2.greet(); // => 'Hello Vue.js!'
+    </script>
+    <hr>
+    <p>除了直接绑定到一个方法，也可以在内联 JavaScript 语句中调用方法</p>
+    <div id="app3">
+        <button v-on:click="say('hi')">Say hi</button>
+        <button v-on:click="say('what')">Say what</button>
+    </div>
+    <script>
+    new Vue({
+        el: '#app3',
+        methods: {
+            say: function(message) {
+                alert(message);
+            }
+        }
+    });
+    </script>
+    <hr>
+    <p>有时也需要在内联语句处理器中访问原始的DOM事件。可以用特殊变量$event把它传入方法</p>
+    <div id="app4">
+        <button v-on:click="warn('Form cannot be submitted yet.', $event)">
+            Submit
+        </button>
+    </div>
+    <script>
+    new Vue({
+        el: '#app4',
+        methods: {
+            warn: function(message, event) { // 现在我们可以访问原生事件对象
+                if (event) event.preventDefault();
+                alert(message);
+            }
+        }
+    });
+    </script>
+    <hr>
+    <p>在事件处理程序中调用 event.preventDefault() 或 event.stopPropagation() 是非常常见的需求。尽管我们可以在方法中轻松实现这点，但更好的方式是：方法只有纯粹的数据逻辑，而不是去处理 DOM 事件细节。</p>
+    <p>为了解决这个问题，Vue.js 为 v-on 提供了事件修饰符。之前提过，修饰符是由点开头的指令后缀来表示的。</p>
+    <ul>
+    	<li>.stop</li>
+		<li>.prevent</li>
+		<li>.capture</li>
+		<li>.self</li>
+		<li>.once</li>
+		<li>.passive</li>
+    </ul>
+    <hr>
+    <p>在监听键盘事件时，我们经常需要检查常见的键值。Vue 允许为 v-on 在监听键盘事件时添加按键修饰符</p>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo10</title>
+    <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+</head>
+<body>
+    <script>
+    // 定义一个名为 button-counter 的新组件
+    Vue.component('button-counter', {
+        data: function() {
+            return {
+                count: 0
+            };
+        },
+        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    });
+    </script>
+    <div id="app01">
+        <button-counter></button-counter>
+    </div>
+    <script>
+    new Vue({ el: '#app01' });
+    </script>
+    <hr>
+    <div id="app02">
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+    </div>
+    <script>
+    new Vue({ el: '#app02' });
+    </script>
+    <hr>
+    <script>
+    // 定义一个名为 button-counter 的新组件
+    Vue.component('button-counter-2', {
+        data: () => ({ count: 0 }),
+        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    });
+    </script>
+    <div id="app03">
+        <button-counter-2></button-counter-2>
+        <button-counter-2></button-counter-2>
+        <button-counter-2></button-counter-2>
+    </div>
+    <script>
+    new Vue({ el: '#app03' });
+    </script>
+    <hr>
+    <script>
+    var commonObj = { count: 0 };
+    // 定义一个名为 button-counter 的新组件
+    Vue.component('static-button-counter', {
+        data: () => commonObj,
+        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    });
+    </script>
+    <div id="app04">
+        <static-button-counter></static-button-counter>
+        <static-button-counter></static-button-counter>
+        <static-button-counter></static-button-counter>
+    </div>
+    <script>
+    new Vue({ el: '#app04' });
+    </script>
+    <hr>
+</body>
+</html>

@@ -1,25 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>demo05</title>
+    <title>demo05 Class和Style绑定</title>
     <style type="text/css">
     .active {
         background-color: cyan;
     }
-
     .text-danger {
         color: crimson;
     }
-
     .static {
         border: 2px solid black;
     }
     </style>
     <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
 </head>
-
 <body>
     <!-- 1 -->
     <div id="app01" v-bind:class="{ active: isActive }"></div>
@@ -94,5 +90,4 @@
     });
     </script>
 </body>
-
 </html>

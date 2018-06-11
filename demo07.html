@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo07 列表渲染</title>
+    <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+</head>
+<body>
+    <p>item in items</p>
+    <ul id="app01">
+        <li v-for="item in items">
+            {{ item.message }}
+        </li>
+    </ul>
+    <script>
+    var app01 = new Vue({
+        el: '#app01',
+        data: {
+            items: [
+                { message: 'Foo' },
+                { message: 'Bar' }
+            ]
+        }
+    });
+    </script>
+    <hr>
+    <p>(item, index) in items</p>
+    <ul id="app02">
+        <li v-for="(item, index) in items">
+            {{ parentMessage }} - {{ index }} - {{ item.message }}
+        </li>
+    </ul>
+    <script>
+    var app02 = new Vue({
+        el: '#app02',
+        data: {
+            parentMessage: 'Parent',
+            items: [
+                { message: 'Foo' },
+                { message: 'Bar' }
+            ]
+        }
+    });
+    </script>
+    <hr>
+    <style type="text/css">
+    .reset li {
+        list-style: none;
+    }
+    </style>
+    <p>(value, key, index) in object</p>
+    <ul id="app03" class="reset">
+        <li v-for="(value, key, index) in object" :key='key'>
+            {{ index }}. {{ key }}: {{ value }}
+        </li>
+    </ul>
+    <script>
+    var app03 = new Vue({
+        el: '#app03',
+        data: {
+            object: {
+                firstName: 'John',
+                lastName: 'Doe',
+                age: 30
+            }
+        }
+    });
+    </script>
+    <hr>
+    <div id="todo-list-example">
+        <input v-model="newTodoText" v-on:keyup.enter="addNewTodo" placeholder="Add a todo">
+        <ul>
+            <li is="todo-item" v-for="(todo, index) in todos" v-bind:key="todo.id" v-bind:title="todo.title" v-on:remove="todos.splice(index, 1)"></li>
+        </ul>
+    </div>
+    <script>
+    Vue.component('todo-item', {
+        template: '\
+            <li>\
+              {{ title }}\
+              <button v-on:click="$emit(\'remove\')">X</button>\
+            </li>\
+          ',
+        props: ['title']
+    })
+    new Vue({
+        el: '#todo-list-example',
+        data: {
+            newTodoText: '',
+            todos: [{
+                    id: 1,
+                    title: 'Do the dishes',
+                },
+                {
+                    id: 2,
+                    title: 'Take out the trash',
+                },
+                {
+                    id: 3,
+                    title: 'Mow the lawn'
+                }
+            ],
+            nextTodoId: 4
+        },
+        methods: {
+            addNewTodo: function() {
+                this.todos.push({
+                    id: this.nextTodoId++,
+                    title: this.newTodoText
+                })
+                this.newTodoText = ''
+            }
+        }
+    })
+    </script>
+</body>
+</html>
