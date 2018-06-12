@@ -136,6 +136,124 @@
         }
     });
     </script>
+    <hr>
+    <div id="app09">
+        <div>
+            <!-- 当选中时，`picked` 为字符串 "a" -->
+            <input type="radio" v-model="picked" value="a">
+            <input type="radio" v-model="picked" value="b">
+            <span>picked:{{picked}}</span>
+        </div>
+        <div>
+            <!-- `toggle` 为 true 或 false -->
+            <input type="checkbox" v-model="toggle">
+            <span>toggle:{{toggle}}</span>
+        </div>
+        <!-- 当选中第一个选项时，`selected` 为字符串 "abc" -->
+        <select v-model="selected">
+            <option value="abc">ABC</option>
+            <option value="def">DEF</option>
+        </select>
+        <span>select:{{selected}}</span>
+    </div>
+    <script>
+    new Vue({
+        el: '#app09',
+        data: {
+            picked: 'a',
+            toggle: true,
+            selected: 'default value',
+        }
+    });
+    </script>
+    <hr>
+    <p>有时我们可能想把值绑定到 Vue 实例的一个动态属性上，这时可以用 v-bind 实现，并且这个属性的值可以不是字符串。</p>
+    <div id="app10">
+        <input type="radio" v-model="picked" v-bind:value="a">
+        <input type="radio" v-model="picked" v-bind:value="b">
+        <span>picked:{{picked}}</span>
+    </div>
+    <script>
+    new Vue({
+        el: '#app10',
+        data: {
+            picked: '',
+            a: { value: 'A' },
+            b: { value: 'B' }
+        }
+    });
+    </script>
+    <hr>
+    <div id="app11">
+        <input type="checkbox" v-model="toggle" true-value="yes" false-value="no">
+        <span>toggle:{{toggle}}</span>
+    </div>
+    <script>
+    new Vue({
+        el: '#app11',
+        data: {
+            toggle: ''
+        }
+    });
+    </script>
+    <hr>
+    <div id="app12">
+        <select v-model="selected">
+            <!-- 内联对象字面量 -->
+            <option v-bind:value="{ number: 123 }">123</option>
+            <option v-bind:value="{ number: 456 }">456</option>
+        </select>
+        <span>selected:{{selected}}</span>
+    </div>
+    <script>
+    new Vue({
+        el: '#app12',
+        data: {
+            selected: ''
+        }
+    });
+    </script>
+    <hr>
+    <p>添加 .lazy 修饰符，从而转变为使用 change 事件进行同步</p>
+    <div id="app13">
+        <!-- 在“change”时而非“input”时更新 -->
+        <input v-model.lazy="msg">
+        <span>.lazy--&gt;{{msg}}</span>
+    </div>
+    <script>
+    new Vue({
+        el: '#app13',
+        data: {
+            msg: ''
+        }
+    });
+    </script>
+    <hr>
+    <div id="app14">
+        <input v-model.number="age" type="number">
+        <span>{{typeof age}} type of {{age}}</span>
+    </div>
+    <script>
+    new Vue({
+        el: '#app14',
+        data: {
+            age: ''
+        }
+    });
+    </script>
+    <hr>
+    <div id="app15">
+        <input v-model.trim="msg">
+        <span>.trim--&gt;'{{msg}}'</span>
+    </div>
+    <script>
+    new Vue({
+        el: '#app15',
+        data: {
+            msg: ''
+        }
+    });
+    </script>
 </body>
 
 </html>

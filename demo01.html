@@ -2,169 +2,169 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>01 介绍</title>
-    <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+  <meta charset="utf-8">
+  <title>01 介绍</title>
+  <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
 </head>
 
 <body>
-    <!-- 1 -->
-    <div id="app-1">
-        <p>{{ message }}</p>
-    </div>
-    <script>
-    /* app与dom#app绑定 */
-    /* 修改app.message将会直接影响dom中的内容 */
-    var app1 = new Vue({
-        el: '#app-1',
-        data: {
-            message: 'Hello Vue.js!'
-        }
-    })
-    </script>
-    <hr>
-    <!-- 2 -->
-    <div id="app-2">
-        <!-- v-bind指令将vue对象的message属性与dom元素的title属性绑定 -->
-        <span v-bind:title="message">
-            鼠标悬停几秒钟查看此处动态绑定的提示信息！
-        </span>
-    </div>
-    <script>
-    var app2 = new Vue({
-        el: '#app-2',
-        data: {
-            message: '页面加载于 ' + new Date().toLocaleString()
-        }
-    })
-    </script>
-    <hr>
-    <!-- 3 -->
-    <div id="app-3">
-        <!-- v-if指令根据vue对象中的show属性做条件判断 -->
-        <p v-if="show">v-if指令让这里可以显示</p>
-        <p v-if="hide">v-if指令让这里被隐藏了</p>
-    </div>
-    <script>
-    var app3 = new Vue({
-        el: '#app-3',
-        data: {
-            show: true,
-            hide: false
-        }
-    })
-    </script>
-    <hr>
-    <!-- 4 -->
-    <div id="app-4">
-    	<p>v-for指令可以遍历数组中的元素</p>
-        <ol>
-            <li v-for="todo in todos">
-                {{ todo.text }}
-            </li>
-        </ol>
-    </div>
-    <script>
-    var app4 = new Vue({
-        el: '#app-4',
-        data: {
-            todos: [
-                { text: '学习 JavaScript' },
-                { text: '学习 Vue' },
-                { text: '整个牛项目' }
-            ]
-        }
-    })
-    </script>
-    <hr>
-    <!-- 5 -->
-    <div id="app-5">
-        <p>{{ message }}</p>
-        <!-- v-on可以将vue对象中的method绑定为dom事件 -->
-        <button v-on:click="reverseMessage">逆转消息</button>
-    </div>
-    <script>
-    var app5 = new Vue({
-        el: '#app-5',
-        data: {
-            message: 'Hello Vue.js!'
-        },
-        methods: {
-            reverseMessage: function() {
-                this.message = this.message.split('')
-                    .reverse()
-                    .join('')
-            }
-        }
-    })
-    </script>
-    <hr>
-    <!-- 6 -->
-    <div id="app-6">
-        <p>{{ message }}</p>
-        <!-- v-model指令实现表单输入和应用状态之间的双向绑定 -->
-        <input v-model="message">
-    </div>
-    <script>
-    var app6 = new Vue({
-        el: '#app-6',
-        data: {
-            message: 'Hello Vue!'
-        }
-    })
-    </script>
-    <hr>
-    <!-- 7 -->
-    <script>
-    /*Vue.component方法可以自定义组件*/
-    Vue.component('todo-item', {
-        template: '<li>这是个待办项</li>'
-    })
-    </script>
-    <div id="app7">
-        <ol>
-            <!-- 在模板代码中使用自定义组件 -->
-            <todo-item></todo-item>
-        </ol>
-    </div>
-    <script>
-    /*将模板实例化为Vue对象*/
-    var app7 = new Vue({
-        el: '#app7'
-    })
-    </script>
-    <hr>
-    <!-- 8 -->
-    <div id="app8">
-        <ol>
-            <!--
-              现在我们为每个 item 提供 name 对象
-              name 对象是变量，即其内容可以是动态的。
-              我们也需要为每个组件提供一个“key”
-            -->
-            <item v-for="food in foods" v-bind:name="food" v-bind:key="food.id">
-            </item>
-        </ol>
-    </div>
-    <script>
-    Vue.component('item', {
-        // item 组件现在接受一个
-        // "prop"，类似于一个自定义属性。
-        // 这个 prop 名为 name
-        props: ['name'],
-        template: '<li>{{ name.text }}</li>'
-    })
-    var app8 = new Vue({
-        el: '#app8',
-        data: {
-            foods: [
-                { id: 0, text: '苹果' },
-                { id: 1, text: '生菜' },
-                { id: 2, text: '红烧肉' }
-            ]
-        }
-    })
-    </script>
+  <!-- 1 -->
+  <div id="app-1">
+    <p>{{ message }}</p>
+  </div>
+  <script>
+  /* app与dom#app绑定 */
+  /* 修改app.message将会直接影响dom中的内容 */
+  var app1 = new Vue({
+    el: '#app-1',
+    data: {
+      message: 'Hello Vue.js!'
+    }
+  })
+  </script>
+  <hr>
+  <!-- 2 -->
+  <div id="app-2">
+    <!-- v-bind指令将vue对象的message属性与dom元素的title属性绑定 -->
+    <span v-bind:title="message">
+      鼠标悬停几秒钟查看此处动态绑定的提示信息！
+    </span>
+  </div>
+  <script>
+  var app2 = new Vue({
+    el: '#app-2',
+    data: {
+      message: '页面加载于 ' + new Date().toLocaleString()
+    }
+  })
+  </script>
+  <hr>
+  <!-- 3 -->
+  <div id="app-3">
+    <!-- v-if指令根据vue对象中的show属性做条件判断 -->
+    <p v-if="show">v-if指令让这里可以显示</p>
+    <p v-if="hide">v-if指令让这里被隐藏了</p>
+  </div>
+  <script>
+  var app3 = new Vue({
+    el: '#app-3',
+    data: {
+      show: true,
+      hide: false
+    }
+  })
+  </script>
+  <hr>
+  <!-- 4 -->
+  <div id="app-4">
+    <p>v-for指令可以遍历数组中的元素</p>
+    <ol>
+      <li v-for="todo in todos">
+        {{ todo.text }}
+      </li>
+    </ol>
+  </div>
+  <script>
+  var app4 = new Vue({
+    el: '#app-4',
+    data: {
+      todos: [
+        { text: '学习 JavaScript' },
+        { text: '学习 Vue' },
+        { text: '整个牛项目' }
+      ]
+    }
+  })
+  </script>
+  <hr>
+  <!-- 5 -->
+  <div id="app-5">
+    <p>{{ message }}</p>
+    <!-- v-on可以将vue对象中的method绑定为dom事件 -->
+    <button v-on:click="reverseMessage">逆转消息</button>
+  </div>
+  <script>
+  var app5 = new Vue({
+    el: '#app-5',
+    data: {
+      message: 'Hello Vue.js!'
+    },
+    methods: {
+      reverseMessage: function() {
+        this.message = this.message.split('')
+          .reverse()
+          .join('')
+      }
+    }
+  })
+  </script>
+  <hr>
+  <!-- 6 -->
+  <div id="app-6">
+    <p>{{ message }}</p>
+    <!-- v-model指令实现表单输入和应用状态之间的双向绑定 -->
+    <input v-model="message">
+  </div>
+  <script>
+  var app6 = new Vue({
+    el: '#app-6',
+    data: {
+      message: 'Hello Vue!'
+    }
+  })
+  </script>
+  <hr>
+  <!-- 7 -->
+  <script>
+  /*Vue.component方法可以自定义组件*/
+  Vue.component('todo-item', {
+    template: '<li>这是个待办项</li>'
+  })
+  </script>
+  <div id="app7">
+    <ol>
+      <!-- 在模板代码中使用自定义组件 -->
+      <todo-item></todo-item>
+    </ol>
+  </div>
+  <script>
+  /*将模板实例化为Vue对象*/
+  var app7 = new Vue({
+    el: '#app7'
+  })
+  </script>
+  <hr>
+  <!-- 8 -->
+  <div id="app8">
+    <ol>
+      <!--
+        现在我们为每个 item 提供 name 对象
+        name 对象是变量，即其内容可以是动态的。
+        我们也需要为每个组件提供一个“key”
+      -->
+      <item v-for="food in foods" v-bind:name="food" v-bind:key="food.id">
+      </item>
+    </ol>
+  </div>
+  <script>
+  Vue.component('item', {
+    // item 组件现在接受一个
+    // "prop"，类似于一个自定义属性。
+    // 这个 prop 名为 name
+    props: ['name'],
+    template: '<li>{{ name.text }}</li>'
+  })
+  var app8 = new Vue({
+    el: '#app8',
+    data: {
+      foods: [
+        { id: 0, text: '苹果' },
+        { id: 1, text: '生菜' },
+        { id: 2, text: '红烧肉' }
+      ]
+    }
+  })
+  </script>
 </body>
 
 </html>

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>demo10</title>
+    <title>demo10 组件基础</title>
     <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
 </head>
+
 <body>
     <script>
     // 定义一个名为 button-counter 的新组件
@@ -33,6 +35,7 @@
     new Vue({ el: '#app02' });
     </script>
     <hr>
+    <p>data 必须是一个函数,当然也可以是lambda表达式，这样组件的每个实例可以维护一份被返回对象的独立的拷贝</p>
     <script>
     // 定义一个名为 button-counter 的新组件
     Vue.component('button-counter-2', {
@@ -66,5 +69,76 @@
     new Vue({ el: '#app04' });
     </script>
     <hr>
+    <script>
+    Vue.component('blog-post', {
+        props: ['title'],
+        template: '<h3>{{ title }}</h3>'
+    });
+    </script>
+    <div id="app05">
+        <blog-post title="My journey with Vue"></blog-post>
+        <blog-post title="Blogging with Vue"></blog-post>
+        <blog-post title="Why Vue is so fun"></blog-post>
+    </div>
+    <script>
+    new Vue({
+        el: '#app05'
+    });
+    </script>
+    <hr>
+    <p>你会发现我们可以使用 v-bind 来动态传递 prop。这在你一开始不清楚要渲染的具体内容，比如从一个 API 获取博文列表的时候，是非常有用的。</p>
+    <div id="app06">
+        <blog-post v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title"></blog-post>
+    </div>
+    <script>
+    new Vue({
+        el: '#app06',
+        data: {
+            posts: [
+                { id: 1, title: 'My journey with Vue' },
+                { id: 2, title: 'Blogging with Vue' },
+                { id: 3, title: 'Why Vue is so fun' },
+            ]
+        }
+    });
+    </script>
+    <hr>
+    <p>可以调用内建的 $emit 方法并传入事件的名字，来向父级组件触发一个事件</p>
+    <script>
+    Vue.component('blog-post-with-enlarge-button', {
+        props: ['post'],
+        template: `
+            <div class="blog-post">
+              <h3>{{ post.title }}</h3>
+              <button v-on:click="$emit('zoomin-text')">
+                Zoom in
+              </button>
+              <button v-on:click="$emit('zoomout-text')">
+                Zoom out
+              </button>
+              <div v-html="post.content"></div>
+            </div>
+          `
+    });
+    </script>
+    <div id="blog-posts-events-demo">
+        <div :style="{ fontSize: postFontSize + 'em' }">
+            <blog-post-with-enlarge-button v-on:zoomin-text="postFontSize += 0.1" v-on:zoomout-text="postFontSize -= 0.1" v-for="post in posts" v-bind:key="post.id" v-bind:post="post"></blog-post-with-enlarge-button>
+        </div>
+    </div>
+    <script>
+    new Vue({
+        el: '#blog-posts-events-demo',
+        data: {
+            posts: [
+                { id: 1, title: 'My journey with Vue', content: 'Vue is the best framework in web front' },
+                { id: 2, title: 'Blogging with Vue', content: 'Vue is MVVM architecture' },
+                { id: 3, title: 'Why Vue is so fun', content: 'Vue is pretty good' },
+            ],
+            postFontSize: 1
+        }
+    });
+    </script>
 </body>
+
 </html>
