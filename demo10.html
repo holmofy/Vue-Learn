@@ -110,10 +110,10 @@
         template: `
             <div class="blog-post">
               <h3>{{ post.title }}</h3>
-              <button v-on:click="$emit('zoomin-text')">
+              <button v-on:click="$emit('zoomin-text',0.1)">
                 Zoom in
               </button>
-              <button v-on:click="$emit('zoomout-text')">
+              <button v-on:click="$emit('zoomout-text',0.1)">
                 Zoom out
               </button>
               <div v-html="post.content"></div>
@@ -123,7 +123,7 @@
     </script>
     <div id="blog-posts-events-demo">
         <div :style="{ fontSize: postFontSize + 'em' }">
-            <blog-post-with-enlarge-button v-on:zoomin-text="postFontSize += 0.1" v-on:zoomout-text="postFontSize -= 0.1" v-for="post in posts" v-bind:key="post.id" v-bind:post="post"></blog-post-with-enlarge-button>
+            <blog-post-with-enlarge-button v-on:zoomin-text="postFontSize += $event" v-on:zoomout-text="postFontSize -= $event" v-for="post in posts" v-bind:key="post.id" v-bind:post="post"></blog-post-with-enlarge-button>
         </div>
     </div>
     <script>

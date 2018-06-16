@@ -1,102 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>02 Vue实例</title>
     <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
 </head>
+
 <body>
     <script>
-    (function() {
-        // 我们的数据对象
-        var data = { a: 1 };
-        // 该对象被加入到一个 Vue 实例中
-        var vm = new Vue({
-            data: data
-        });
-        // 获得这个实例上的属性
-        // 返回源数据中对应的字段
-        console.log(vm.a == data.a); // true
-        // 设置属性也会影响到原始数据
-        vm.a = 2;
-        console.log(data.a); // 2
-        // ……反之亦然
-        data.a = 3;
-        console.log(vm.a); // 3
-        /* 当这些数据改变时，视图会进行重渲染 */
-        /* 只有data中已存在的属性才是响应式的 */
-        /* 新增属性将不会出发视图更新 */
-        /*
-         如果你知道你会在晚些时候需要一个属性，
-         但是一开始它为空或不存在，
-         那么你仅需要设置一些初始值。
-         如：
-          data: {
-            newTodoText: '',
-            visitCount: 0,
-            hideCompletedTodos: false,
-            todos: [],
-            error: null
-          }
-        */
-        /*
-          如果使用Object.freeze()方法将对象冻结了，由于无法改变对象属性
-          Vue的响应系统也无法再追踪变化。
-            var obj = {
-              foo: 'bar'
-            }
-            Object.freeze(obj)
-            new Vue({
-              el: '#app',
-              data: obj
-            })
-         */
-    })();
+        (function () {
+            // 我们的数据对象
+            var data = { a: 1 };
+            // 该对象被加入到一个 Vue 实例中
+            var vm = new Vue({
+                data: data
+            });
+            // 获得这个实例上的属性
+            // 返回源数据中对应的字段
+            console.log(vm.a == data.a); // true
+            // 设置属性也会影响到原始数据
+            vm.a = 2;
+            console.log(data.a); // 2
+            // ……反之亦然
+            data.a = 3;
+            console.log(vm.a); // 3
+            /* 当这些数据改变时，视图会进行重渲染 */
+            /* 只有data中已存在的属性才是响应式的 */
+            /* 新增属性将不会出发视图更新 */
+            /*
+             如果你知道你会在晚些时候需要一个属性，
+             但是一开始它为空或不存在，
+             那么你仅需要设置一些初始值。
+             如：
+              data: {
+                newTodoText: '',
+                visitCount: 0,
+                hideCompletedTodos: false,
+                todos: [],
+                error: null
+              }
+            */
+            /*
+              如果使用Object.freeze()方法将对象冻结了，由于无法改变对象属性
+              Vue的响应系统也无法再追踪变化。
+                var obj = {
+                  foo: 'bar'
+                }
+                Object.freeze(obj)
+                new Vue({
+                  el: '#app',
+                  data: obj
+                })
+             */
+        })();
     </script>
     <hr>
     <!-- 2 -->
     <div id="example"></div>
     <script>
-    var data = { a: 1 };
-    var vm = new Vue({
-        el: '#example',
-        data: data
-    });
-    /*Vue暴露了一些实例属性和方法。为了与用户定义属性区分，它们都有$前缀*/
-    console.log(vm.$data === data); // => true
-    console.log(vm.$el === document.getElementById('example')); // => true
-    // $watch 是一个实例方法:用于观察属性变化
-    vm.$watch('a', function(newValue, oldValue) {
-        // 这个回调将在 `vm.a` 改变后调用
-        // 可以在控制台尝试改变vm.a的值
-        console.log(newValue, oldValue);
-    });
+        var data = { a: 1 };
+        var vm = new Vue({
+            el: '#example',
+            data: data
+        });
+        /*Vue暴露了一些实例属性和方法。为了与用户定义属性区分，它们都有$前缀*/
+        console.log(vm.$data === data); // => true
+        console.log(vm.$el === document.getElementById('example')); // => true
+        // $watch 是一个实例方法:用于观察属性变化
+        vm.$watch('a', function (newValue, oldValue) {
+            // 这个回调将在 `vm.a` 改变后调用
+            // 可以在控制台尝试改变vm.a的值
+            console.log(newValue, oldValue);
+        });
     </script>
     <!-- 3 -->
+    <div id="app03">
+        <div>{{a}}</div>
+        <div>使用`vm03.a`修改上面的值</div>
+    </div>
     <script>
-    new Vue({
-        data: {
-            a: 1
-        },
-        beforeCreate: function() {},
-        /* 生命周期回调函数(钩子函数) */
-        created: function() {
-            // `this` 指向 vm 实例
-            console.log('a is: ' + this.a); // a is: 1
-        },
-        beforeMount: function() {},
-        mounted: function() {
-            console.log("mounted");
-        },
-        beforeUpdate: function() {},
-        updated: function() {
-            console.log("updated");
-        },
-        beforeDestory: function() {},
-        destroyed: function() {
-            console.log("destroyed");
-        }
-    });
+        var vm03 = new Vue({
+            el: "#app03",
+            data: {
+                a: 1
+            },
+            beforeCreate: function () {
+                console.log("before Create");
+            },
+            /* 生命周期回调函数(钩子函数) */
+            created: function () {
+                // `this` 指向 vm 实例
+                console.log("created"); // a is: 1
+            },
+            beforeMount: function () {
+                console.log("beforeMount");
+            },
+            mounted: function () {
+                console.log("mounted");
+            },
+            beforeUpdate: function () {
+                console.log("beforeUpdate");
+            },
+            updated: function () {
+                console.log("updated");
+            },
+            beforeDestory: function () {
+                console.log("beforeDestory");
+            },
+            destroyed: function () {
+                console.log("destroyed");
+            }
+        });
     </script>
 </body>
+
 </html>
